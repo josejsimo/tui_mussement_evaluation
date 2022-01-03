@@ -30,7 +30,7 @@ class HttpService {
 			}
 
 		}
-		catch(Exception $ex) {
+		catch(Throwable $ex) {
 			throw $ex;
 		}
 
