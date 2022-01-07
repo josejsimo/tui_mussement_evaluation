@@ -2,21 +2,29 @@
 
 namespace App\Repositories;
 
-use App\Repositories\Interfaces\RepositoryInterface;
+use App\Repositories\Interfaces\WeatherRepositoryInterface;
 
-use App\Services\XmlService;
-use App\Config\Config;
+use Config\AppConfig;
+use App\Services\HttpService;
+use App\Repositories\Common\Repository;
 
-class WeatherRepository implements RepositoryInterface {
+class WeatherRepository extends Repository implements WeatherRepositoryInterface {
+
 	function __construct() {
-
+		$this->api_url = AppConfig::$WeatherApi;
 	}
 
-	public function get($city) {
+	public function get($city_lat, $city_long, $days) {
+		try {
 
+			return json_decode(HttpService::HttpRequest($this->api_url . '&q=' . $city_lat . ',' . $city_long . '&days=' . $days));
+		}
+		catch(\Throwable $ex) {
+			throw $ex;
+		}
 	}
 
-	public function set($weather) {
+	public function set($city_id, $weather_str) {
 
 	}
 }
