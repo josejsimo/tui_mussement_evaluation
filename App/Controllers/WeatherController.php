@@ -12,14 +12,19 @@ class WeatherController {
 		$this->cityWeather = new CityWeatherProcessor();
 	}
 
-	public function getWeather() {
+	public function getWeather($days = 1) {
 		try {
 
-			return $this->cityWeather->getWeatherForCities();
-			
+			//Prevent injections
+			if(!is_int($days)) {
+				throw new \Exception("Invalid format for days");
+			}
+
+			return $this->cityWeather->getWeatherForCities($days);
 		}
-		catch(Throwable $ex) {
-			print($ex->getMessage);
+		catch(\Throwable $ex) {
+			print("Error message " . $ex->getMessage());
+			
 		}
 		
 	}
