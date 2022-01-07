@@ -15,7 +15,7 @@ class HttpService {
 			curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
 
 			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			curl_setopt($ch, CURLOPT_REFERER, $_SERVER['REQUEST_URI']);
+			//curl_setopt($ch, CURLOPT_REFERER, $_SERVER['REQUEST_URI']);
 			curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, 0);
 			curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
 
