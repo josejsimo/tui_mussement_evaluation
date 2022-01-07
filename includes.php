@@ -15,6 +15,9 @@ include_once('App/Libraries/CityWeatherProcessor.php');
 //repositories
 
 include_once('App/Repositories/Interfaces/RepositoryInterface.php');
+include_once('App/Repositories/Interfaces/WeatherRepositoryInterface.php');
+
+include_once('App/Repositories/Common/Repository.php');
 
 include_once('App/Repositories/CityRepository.php');
 include_once('App/Repositories/WeatherRepository.php');
