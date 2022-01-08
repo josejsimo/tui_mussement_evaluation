@@ -1,10 +1,35 @@
 <?php
 
+/**
+ * PHP version 7.4
+ *
+ * @category Repository_Interface
+ * @package  TuiMussement_Evaluation
+ * @author   Author <jjsimoperales@gmail.com>
+ * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
+ */
+
 namespace App\Repositories\Interfaces;
 
-interface RepositoryInterface {
-	public function get($param);
-	public function set($param);
-}
+/**
+ * RepositoryInterface
+ *
+ * @category Interface
+ * @package  Repositories
+ * @author   Author <jjsimoperales@gmail.com>
+ * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
+ */
 
-?>
+interface RepositoryInterface
+{
+
+
+    /**
+     * Get
+     *
+     * @return -
+     */
+    public function get();
+
+
+}//end interface

@@ -1,87 +1,136 @@
 <?php
 
+/**
+ * PHP version 7.4
+ *
+ * @category Library_Class
+ * @package  TuiMussement_Evaluation
+ * @author   Author <jjsimoperales@gmail.com>
+ * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
+ */
+
 namespace App\Libraries;
 
 use App\Repositories\CityRepository;
 use App\Repositories\WeatherRepository;
 
-class CityWeatherProcessor {
+/**
+ * CityWeatherProcessor
+ *
+ * @category Class
+ * @package  Libraries
+ * @author   Author <jjsimoperales@gmail.com>
+ * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
+ */
 
-	private $cityRepository = null;
-	private $weatherRepository = null;
+class CityWeatherProcessor
+{
 
-	function __construct() {
-		$this->cityRepository = new CityRepository();
-		$this->weatherRepository = new WeatherRepository();
-	}
+    /**
+     * CityRepository
+     *
+     * @var $instance of class CityRepository.
+     */
+    private $cityRepository = null;
 
-	public function getWeatherForCities($days) {
+    /**
+     * WeatherRepository
+     *
+     * @var $instance of class WeatherRepository.
+     */
+    private $weatherRepository = null;
 
-		try {
 
-			//City data abstracted from business logic. The get function can return data from an API or from a db of any type with total abstraction.
-			$cities = $this->cityRepository->get();
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->cityRepository    = new CityRepository();
+        $this->weatherRepository = new WeatherRepository();
 
-			//Test it city data correct
-			if(!is_array($cities)) {
-				throw new \Exception("Invalid data format for cities");
-			}
+    }//end __construct()
 
-			$cities_weather = Array();
 
-			foreach ($cities as $city) {
-				$city_weather = $this->getWeatherForCity($city, $days);
-				array_push($cities_weather, $city_weather);
-			}
+    /**
+     * Get cities and foreach city get weather for the defined days
+     *
+     * @param $days number of days for weather forecast
+     *
+     * @return Weather for cities
+     * @throws \Exception \Throwable
+     */
+    public function getWeatherForCities($days)
+    {
+        try {
+            // City data abstracted from business logic. The get function can return data from an API or from a db of any type with total abstraction.
+            $cities = $this->cityRepository->get();
 
-			return $cities_weather;
+            // Test it city data correct.
+            if (is_array($cities) === false) {
+                throw new \Exception("Invalid data format for cities");
+            }
 
-		}
-		catch(\Throwable $ex) {
-			throw $ex;
-		}
-	} 
+            $citiesWeather = [];
 
-	private function getWeatherForCity($city, $days) {
-		try {
+            foreach ($cities as $city) {
+                $cityWeather = $this->getWeatherForCity($city, $days);
+                array_push($citiesWeather, $cityWeather);
+            }
 
-			//Weather data abstracted from business logic. The get function can return data from an API or from a db of any type with total abstraction.
-			$weather = $this->weatherRepository->get($city->latitude, $city->longitude, $days);
+            return $citiesWeather;
+        } catch (\Throwable $ex) {
+            throw $ex;
+        }//end try
 
-			//Test if weather data correct
-			if(!is_array($weather->forecast->forecastday)) {
-				throw new \Exception("Invalid forecast for city " . $city->name);
-			}
+    }//end getWeatherForCities()
 
-			$city_weather = Array();
 
-			foreach ($weather->forecast->forecastday as $forecast) {
+    /**
+     * Get weather for a city for the defined days
+     *
+     * @param $city city info object
+     * @param $days number of days for weather forecast
+     *
+     * @return Weather for the defined city
+     * @throws \Exception \Throwable
+     */
+    private function getWeatherForCity($city, $days)
+    {
+        try {
+            // Weather data abstracted from business logic. The get function can return data from an API or from a db of any type with total abstraction.
+            $weather = $this->weatherRepository->getByCoordinates($city->latitude, $city->longitude, $days);
 
-				//Test if forecast condition data correct
-				if(empty($forecast->day->condition->text)) {
-					throw new \Exception("No weather condition for day " . $day . " and city " . $city->name);
-				}
+            // Test if weather data correct.
+            if (is_array($weather->forecast->forecastday) === false) {
+                throw new \Exception("Invalid forecast for city ".$city->name);
+            }
 
-				$day_weather = new \stdClass();
-				$day_weather->date = $forecast->date;
-				$day_weather->condition = $forecast->day->condition->text;
+            $cityWeather = [];
 
-				array_push($city_weather, $day_weather);
+            foreach ($weather->forecast->forecastday as $forecast) {
+                // Test if forecast condition data correct.
+                if (empty($forecast->day->condition->text) === true) {
+                    throw new \Exception("No weather condition for day ".$day." and city ".$city->name);
+                }
 
-			}
+                $dayWeather            = new \stdClass();
+                $dayWeather->date      = $forecast->date;
+                $dayWeather->condition = $forecast->day->condition->text;
 
-			$city_weather_obj = new \stdClass();
-			$city_weather_obj->city = $city->name;
-			$city_weather_obj->weather = $city_weather;
+                array_push($cityWeather, $dayWeather);
+            }
 
-			return $city_weather_obj;
+            $cityWeatherObj          = new \stdClass();
+            $cityWeatherObj->city    = $city->name;
+            $cityWeatherObj->weather = $cityWeather;
 
-		}
-		catch(\Throwable $ex) {
-			throw $ex;
-		}
-	}
-	
-}
+            return $cityWeatherObj;
+        } catch (\Throwable $ex) {
+            throw $ex;
+        }//end try
 
-?>
+    }//end getWeatherForCity()
+
+
+}//end class
