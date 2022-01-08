@@ -1,28 +1,32 @@
 <?php
 
+/**
+ * PHP version 7.4
+ *
+ * @category Run
+ * @package  TuiMussement_Evaluation
+ * @author   Author <jjsimoperales@gmail.com>
+ * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
+ */
+
 require_once 'includes.php';
 
 use App\Controllers\WeatherController;
 
 $weatherController = new WeatherController();
 
-$cities_weather = $weatherController->getWeather(2);
+$citiesWeather = $weatherController->getWeather(2);
 
-foreach($cities_weather as $city_weather) {
+foreach ($citiesWeather as $cityWeather) {
+    echo $cityWeather->city.' | ';
 
-	print($city_weather->city . ' | ');
+    for ($i = 0; $i < count($cityWeather->weather); $i++) {
+        if ($i === (count($cityWeather->weather) - 1)) {
+            echo $cityWeather->weather[$i]->condition;
+        } else {
+            echo $cityWeather->weather[$i]->condition.' - ';
+        }
+    }
 
-	for($i=0; $i<count($city_weather->weather); $i++) {
-
-		if($i == (count($city_weather->weather) - 1)) {
-			print($city_weather->weather[$i]->condition);
-		}
-		else {
-			print($city_weather->weather[$i]->condition . ' - ');	
-		}
-	}
-
-	print("\n");
+    echo "\n";
 }
-
-?>
