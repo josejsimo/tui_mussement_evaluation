@@ -9,6 +9,8 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
+declare(strict_types=1);
+
 namespace App\Services;
 
 /**
@@ -33,9 +35,18 @@ class HttpService
      * @return Weather object
      * @throws Throwable
      */
-    public static function HttpRequest($url, $method="GET")
+    public static function HttpRequest(string $url, string $method="GET")
     {
         try {
+            if (($method === "GET") === false
+                && ($method === "POST") === false
+                && ($method === "PUT") === false
+                && ($method === "PATCH") === false
+                && ($method === "DELETE") === false
+            ) {
+                throw new \Exception("Invalid HTTP method");
+            }
+
             $ch = curl_init();
             curl_setopt($ch, CURLOPT_HEADER, false);
             curl_setopt($ch, CURLOPT_NOBODY, false);
@@ -52,9 +63,12 @@ class HttpService
 
             $output = curl_exec($ch);
 
-            if (curl_errno($ch) === 0) {
-                return $output;
+            // Test if curl errno is valid.
+            if ((curl_errno($ch) === 0) === false) {
+                throw new \Exception("Http error ".curl_errno($ch)." in http request");
             }
+
+            return $output;
         } catch (\Throwable $ex) {
             throw $ex;
         }//end try
