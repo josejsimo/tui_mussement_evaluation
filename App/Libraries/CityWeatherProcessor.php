@@ -9,6 +9,8 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
+declare(strict_types=1);
+
 namespace App\Libraries;
 
 use App\Repositories\CityRepository;
@@ -31,14 +33,14 @@ class CityWeatherProcessor
      *
      * @var $instance of class CityRepository.
      */
-    private $cityRepository = null;
+    private CityRepository $cityRepository;
 
     /**
      * WeatherRepository
      *
      * @var $instance of class WeatherRepository.
      */
-    private $weatherRepository = null;
+    private WeatherRepository $weatherRepository;
 
 
     /**
@@ -60,15 +62,19 @@ class CityWeatherProcessor
      * @return Weather for cities
      * @throws \Exception \Throwable
      */
-    public function getWeatherForCities($days)
+    public function getWeatherForCities(int $days)
     {
         try {
+            if (($days > 0) === false) {
+                throw new \Exception("Days must be greater than 0");
+            }
+
             // City data abstracted from business logic. The get function can return data from an API or from a db of any type with total abstraction.
             $cities = $this->cityRepository->get();
 
             // Test it city data correct.
             if (is_array($cities) === false) {
-                throw new \Exception("Invalid data format for cities");
+                throw new \Exception("Invalid data for cities");
             }
 
             $citiesWeather = [];
@@ -95,15 +101,15 @@ class CityWeatherProcessor
      * @return Weather for the defined city
      * @throws \Exception \Throwable
      */
-    private function getWeatherForCity($city, $days)
+    private function getWeatherForCity(object $city, int $days)
     {
         try {
             // Weather data abstracted from business logic. The get function can return data from an API or from a db of any type with total abstraction.
             $weather = $this->weatherRepository->getByCoordinates($city->latitude, $city->longitude, $days);
 
             // Test if weather data correct.
-            if (is_array($weather->forecast->forecastday) === false) {
-                throw new \Exception("Invalid forecast for city ".$city->name);
+            if (empty($weather->forecast->forecastday) === true) {
+                throw new \Exception("Invalid forecast data");
             }
 
             $cityWeather = [];
