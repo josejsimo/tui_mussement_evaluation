@@ -17,16 +17,24 @@ $weatherController = new WeatherController();
 
 $citiesWeather = $weatherController->getWeather(2);
 
-foreach ($citiesWeather as $cityWeather) {
-    echo $cityWeather->city.' | ';
+if (($citiesWeather->error == 0) === false) {
+    echo 'Error '.$citiesWeather->data."\n";
+} else {
 
-    for ($i = 0; $i < count($cityWeather->weather); $i++) {
-        if ($i === (count($cityWeather->weather) - 1)) {
-            echo $cityWeather->weather[$i]->condition;
-        } else {
-            echo $cityWeather->weather[$i]->condition.' - ';
+    foreach ($citiesWeather->data as $cityWeather) {
+        echo $cityWeather->city.' | ';
+
+        for ($i = 0; $i < count($cityWeather->weather); $i++) {
+            if ($i === (count($cityWeather->weather) - 1)) {
+                echo $cityWeather->weather[$i]->condition;
+            } else {
+                echo $cityWeather->weather[$i]->condition.' - ';
+            }
         }
+
+        echo "\n";
     }
 
-    echo "\n";
 }
+
+
