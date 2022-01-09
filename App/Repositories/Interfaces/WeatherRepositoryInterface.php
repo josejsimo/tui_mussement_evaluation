@@ -9,6 +9,8 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
+declare(strict_types=1);
+
 namespace App\Repositories\Interfaces;
 
 use App\Repositories\Interfaces\RepositoryInterface;
@@ -35,7 +37,7 @@ interface WeatherRepositoryInterface extends RepositoryInterface
      *
      * @return null
      */
-    public function getByCoordinates($cityLat, $cityLong, $days);
+    public function getByCoordinates(float $cityLat, float $cityLong, int $days);
 
 
 }//end interface

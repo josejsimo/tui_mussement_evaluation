@@ -9,6 +9,8 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\WeatherRepositoryInterface;
@@ -63,7 +65,7 @@ class WeatherRepository extends Repository implements WeatherRepositoryInterface
      * @return Weather object
      * @throws Throwable
      */
-    public function getByCoordinates($cityLat, $cityLong, $days)
+    public function getByCoordinates(float $cityLat, float $cityLong, int $days)
     {
         try {
             return json_decode(HttpService::HttpRequest($this->apiUrl.'&q='.$cityLat.','.$cityLong.'&days='.$days));
@@ -72,21 +74,6 @@ class WeatherRepository extends Repository implements WeatherRepositoryInterface
         }
 
     }//end getByCoordinates()
-
-
-    /**
-     * Get cities
-     *
-     * @param $cityId     id of the city to set the weather
-     * @param $weatherStr weather condition string
-     *
-     * @return Weather object
-     * @throws Throwable
-     */
-    public function set($cityId, $weatherStr)
-    {
-
-    }//end set()
 
 
 }//end class

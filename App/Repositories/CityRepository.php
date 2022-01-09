@@ -9,6 +9,8 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
+declare(strict_types=1);
+
 namespace App\Repositories;
 
 use App\Repositories\Interfaces\RepositoryInterface;

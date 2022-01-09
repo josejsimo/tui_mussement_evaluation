@@ -9,6 +9,8 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
+declare(strict_types=1);
+
 namespace Config;
 
 /**
@@ -22,8 +24,8 @@ namespace Config;
 
 class AppConfig
 {
-public static $tuiMussementApi = 'https://api.musement.com/api/v3/cities.json';
-public static $weatherApi      = 'http://api.weatherapi.com/v1/forecast.json?key=562cd4913eb84c8fa95161910220501';
+public static string $tuiMussementApi = 'https://api.musement.com/api/v3/cities.json';
+public static string $weatherApi      = 'http://api.weatherapi.com/v1/forecast.json?key=562cd4913eb84c8fa95161910220501';
 
 }
 
