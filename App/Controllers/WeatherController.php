@@ -9,6 +9,8 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
+declare(strict_types=1);
+
 namespace App\Controllers;
 
 use App\Libraries\CityWeatherProcessor;
@@ -31,7 +33,7 @@ class WeatherController
      *
      * @var $instance of class CityWeatherProcessor.
      */
-    private $cityWeather = null;
+    private CityWeatherProcessor $cityWeather;
 
 
     /**
@@ -52,19 +54,35 @@ class WeatherController
      * @return Weather for cities
      * @throws \Exception
      */
-    public function getWeather($days=1)
+    public function getWeather(int $days=1)
     {
         try {
-            if (is_int($days) === false) {
-                throw new \Exception("Invalid format for days");
-            }
-
-            return $this->cityWeather->getWeatherForCities($days);
+            return $this->getResponse(0, $this->cityWeather->getWeatherForCities($days));
         } catch (\Throwable $ex) {
-            echo("Error message ".$ex->getMessage());
+            return $this->getResponse(1, $ex->getMessage());
         }//end try
 
     }//end getWeather()
+
+
+    /**
+     * Get response
+     *
+     * @param $error error number for resposne
+     * @param $data  data or error message for response
+     *
+     * @return Weather for cities
+     * @throws \Exception
+     */
+    private function getResponse($error, $data)
+    {
+        $response        = new \stdClass();
+        $response->error = $error;
+        $response->data  = $data;
+
+        return $response;
+
+    }//end getResponse()
 
 
 }//end class
