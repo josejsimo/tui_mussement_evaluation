@@ -22,7 +22,7 @@ if (($citiesWeather->error == 0) === false) {
 } else {
 
     foreach ($citiesWeather->data as $cityWeather) {
-        echo $cityWeather->city.' | ';
+        echo 'Processed city '.$cityWeather->city.' | ';
 
         for ($i = 0; $i < count($cityWeather->weather); $i++) {
             if ($i === (count($cityWeather->weather) - 1)) {
