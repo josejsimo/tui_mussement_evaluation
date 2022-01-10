@@ -13,7 +13,7 @@ TUI MUSSEMENT EVALUATION STEP 2 ANSWERS
      		- Type        : int
      		- Description : id of the city for which the weather is going to be set
 
-     	-> forecast :
+     	-> conditions :
 
      		- Type        : JSON
      		- Description : List of dates and weather condition
@@ -21,16 +21,16 @@ TUI MUSSEMENT EVALUATION STEP 2 ANSWERS
 
      			[
 	     			{
-	     		 		date      : date (YYYY-MM-DD),
+	     		 		date      : ISO 8601 date (YYYY-MM-DD),
 	     		 		condition : 'Text for weather condition'
 	     		 	},
 	     		    {
-	     		 		date      : date (YYYY-MM-DD),
+	     		 		date      : ISO 8601 date (YYYY-MM-DD),
 	     		 		condition : 'Text for weather condition'
 	     		 	},
 	     		    ...
 	     		    {
-	     		 		date     : date (YYYY-MM-DD),
+	     		 		date     : ISO 8601 date (YYYY-MM-DD),
 	     		 		forecast : 'Text for weather condition'
 	     		 	},
 	     		]
