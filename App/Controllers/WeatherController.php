@@ -9,8 +9,6 @@
  * @license  http://gnu.org/licenses/gpl-3.0.html GNU general public license v3.0
  */
 
-declare(strict_types=1);
-
 namespace App\Controllers;
 
 use App\Libraries\CityWeatherProcessor;
@@ -54,7 +52,7 @@ class WeatherController
      * @return Weather for cities
      * @throws \Exception
      */
-    public function getWeather(int $days=1)
+    public function getWeather($days=1)
     {
         try {
             return $this->getResponse(0, $this->cityWeather->getWeatherForCities($days));
