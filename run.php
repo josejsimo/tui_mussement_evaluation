@@ -17,10 +17,9 @@ $weatherController = new WeatherController();
 
 $citiesWeather = $weatherController->getWeather(2);
 
-if (($citiesWeather->error == 0) === false) {
+if (($citiesWeather->error === 0) === false) {
     echo 'Error '.$citiesWeather->data."\n";
 } else {
-
     foreach ($citiesWeather->data as $cityWeather) {
         echo 'Processed city '.$cityWeather->city.' | ';
 
@@ -34,7 +33,4 @@ if (($citiesWeather->error == 0) === false) {
 
         echo "\n";
     }
-
 }
-
-
