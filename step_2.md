@@ -78,16 +78,16 @@ TUI MUSSEMENT EVALUATION STEP 2 ANSWERS
 
 	     		[
 	     			{
-	     		 		date      : start_date (YYYY-MM-DD),
+	     		 		date      : ISO 8601 date (YYYY-MM-DD),
 	     		 		condition : 'Text for the weather condition'
 	     		 	},
 	     		    {
-	     		 		date      : start_date + 1 day (YYYY-MM-DD),
+	     		 		date      : ISO 8601 date (YYYY-MM-DD),
 	     		 		condition : 'Text for the weather condition'
 	     		 	},
 	     		    ...
 	     		    {
-	     		 		date      : end_date (YYYY-MM-DD),
+	     		 		date      : ISO 8601 date (YYYY-MM-DD),
 	     		 		condition : 'Text for the weather condition'
 	     		 	},
 	     		]
